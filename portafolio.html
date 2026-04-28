@@ -1,135 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mi Perfil Profesional - Portafolio</title>
-    </head>
-    <body>
 
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mi Perfil Profesional - Portafolio</title>
+        <link rel="stylesheet" href="style/style.css" />
+        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet" />
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    </head>
+
+    <body>
         <header>
-            <h1>Mi Perfil Profesional</h1>
+            <h1>Perfil Profesional</h1>
         </header>
 
-        <hr>
+        <nav>
+            <ul>
+                <li><a href="index.html">¿Quién soy?</a></li>
+                <li><a href="experiencia.html">Experiencia</a></li>
+                <li><a href="portafolio.html">Portafolio</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
 
-        <table border="1" width="100%">
-            <tr>
-                <td>
-                    <aside>
-                        <nav>
-                            <h3>Navegación</h3>
-                            <ul>
-                                <li><a href="index.html">¿Quién soy?</a></li>
-                                <li><a
-                                        href="experiencia.html">Experiencia</a></li>
-                                <li><a
-                                        href="portafolio.html">Portafolio</a></li>
-                                <li><a href="contacto.html">Contacto</a></li>
-                            </ul>
-                        </nav>
-                    </aside>
-                </td>
+        <aside class="infoPersonal">
+            <h3>Información Personal</h3>
+            <img class="fotoPerfil" src="images/perfil.jpeg"
+                alt="Imagen de perfil de Santiago De La Cruz" />
+            <p>Kevin Santiago De La Cruz Cañar</p>
+            <p>
+                Ingeniería en Desarrollo de Software<br />
+                (En curso - 6to Semestre)
+            </p>
+            <br />
+            <br />
+            <a href="https://github.com/Santi-Dela-Cruz" target="_blank"
+                class="enlaces">
+                <i class="bx bxl-github"></i> GitHub
+            </a>
 
-                <td width="90%">
-                    <main>
+            <a href="https://www.linkedin.com/in/santiagodealacruz/"
+                target="_blank" class="enlaces">
+                <i class="bx bxl-linkedin-square"></i> LinkedIn
+            </a>
+            <p></p>
+        </aside>
 
-                        <section id="portafolio">
-                            <h2>Portafolio</h2>
+        <section class="principal">
+            <h2 class="tituloH2">Portafolio</h2>
 
-                            <p>
-                                A continuación presento algunos de los proyectos
-                                que he desarrollado durante mi formación en
-                                Ingeniería en Desarrollo de Software. Estos
-                                reflejan mis conocimientos en programación,
-                                diseño de software y desarrollo de aplicaciones.
-                            </p>
+            <p class="textNormal">
+                A continuación presento algunos de los proyectos que he
+                desarrollado durante mi formación en Ingeniería en Desarrollo
+                de Software. Estos reflejan mis conocimientos en programación,
+                diseño de software y desarrollo de aplicaciones.
+            </p>
 
-                            <h3>Proyectos Destacados</h3>
+            <h3>Proyectos Destacados</h3>
 
-                            <table border="1">
-                                <tr>
-                                    <td>
-                                        <strong>Sistema de Gestión
-                                            Jurídico</strong><br>
-                                        <img src="images/SJAMB.png"
-                                            width="200"><br>
-                                        <p>Aplicación para gestión de procesos
-                                            legales.</p>
-                                        <p><strong>Tecnologías:</strong> Java, JavaFX,
-                                            SQL</p>
-                                        <a
-                                            href="https://github.com/Santi-Dela-Cruz/Prj_SGEJ-A"
-                                            target="_blank">Repositorio</a>
-                                    </td>
+            <div class="proyectos">
+                <article class="proyectoCard">
+                    <img src="images/SJAMB.png"
+                        alt="Sistema de Gestión Jurídico" />
+                    <div class="proyectoContenido">
+                        <h4>Sistema de Gestión Jurídico</h4>
+                        <p>Aplicación para la gestión de procesos legales.</p>
+                        <ul class="datosProyecto">
+                            <li><strong>Tecnologías:</strong> Java, JavaFX, SQL</li>
+                            <li><strong>Tipo:</strong> Aplicación de escritorio</li>
+                        </ul>
+                        <a href="https://github.com/Santi-Dela-Cruz/Prj_SGEJ-A"
+                            target="_blank" rel="noopener noreferrer"
+                            class="repositorioLink">Ver repositorio</a>
+                    </div>
+                </article>
 
-                                    <td>
-                                        <strong>Boyer Moore Matcher
-                                            Visual</strong><br>
-                                        <img src="images/ADN_NEOGEN.png"
-                                            width="200"><br>
-                                        <p>Aplicación visual de algoritmo de
-                                            búsqueda.</p>
-                                        <p><strong>Tecnologías:</strong> Java, JavaFX</p>
-                                        <a
-                                            href="https://github.com/Santi-Dela-Cruz/AND_BM"
-                                            target="_blank">Repositorio</a>
-                                    </td>
+                <article class="proyectoCard">
+                    <img src="images/ADN_NEOGEN.png"
+                        alt="Boyer Moore Matcher Visual" />
+                    <div class="proyectoContenido">
+                        <h4>Boyer Moore Matcher Visual</h4>
+                        <p>Visualización del algoritmo Boyer-Moore para
+                            búsqueda de patrones.</p>
+                        <ul class="datosProyecto">
+                            <li><strong>Tecnologías:</strong> Java, JavaFX</li>
+                            <li><strong>Tipo:</strong> Proyecto académico</li>
+                        </ul>
+                        <a href="https://github.com/Santi-Dela-Cruz/AND_BM"
+                            target="_blank" rel="noopener noreferrer"
+                            class="repositorioLink">Ver repositorio</a>
+                    </div>
+                </article>
 
-                                    <td>
-                                        <strong>Sistema de Gestión de
-                                            Choferes</strong><br>
-                                        <img src="images/SGC_EPN.png"
-                                            width="200"><br>
-                                        <p>Sistema de administración de
-                                            conductores.</p>
-                                        <p><strong>Tecnologías:</strong> Java, SQLite</p>
-                                        <a
-                                            href="https://github.com/Santi-Dela-Cruz/Prj_SistemaGestionChoferes"
-                                            target="_blank">Repositorio</a>
-                                    </td>
-                                </tr>
+                <article class="proyectoCard">
+                    <img src="images/SGC_EPN.png"
+                        alt="Sistema de Gestión de Choferes" />
+                    <div class="proyectoContenido">
+                        <h4>Sistema de Gestión de Choferes</h4>
+                        <p>Sistema de administración y registro de
+                            conductores.</p>
+                        <ul class="datosProyecto">
+                            <li><strong>Tecnologías:</strong> Java, SQLite</li>
+                            <li><strong>Tipo:</strong> Aplicación de escritorio</li>
+                        </ul>
+                        <a href="https://github.com/Santi-Dela-Cruz/Prj_SistemaGestionChoferes"
+                            target="_blank" rel="noopener noreferrer"
+                            class="repositorioLink">Ver repositorio</a>
+                    </div>
+                </article>
 
-                                <tr>
-                                    <td>
-                                        <strong>App Web con BD
-                                            Distribuidas</strong><br>
-                                        <img src="images/App_BAD.png"
-                                            width="200"><br>
-                                        <p>Aplicación web con bases de datos
-                                            distribuidas.</p>
-                                        <p><strong>Tecnologías:</strong> Spring, Java, SQL</p>
-                                        <a
-                                            href="https://github.com/Santi-Dela-Cruz/BAD_App"
-                                            target="_blank">Repositorio</a>
-                                    </td>
+                <article class="proyectoCard">
+                    <img src="images/App_BAD.png"
+                        alt="App Web con BD Distribuidas" />
+                    <div class="proyectoContenido">
+                        <h4>App Web con BD Distribuidas</h4>
+                        <p>Aplicación web con conexión a bases de datos
+                            distribuidas.</p>
+                        <ul class="datosProyecto">
+                            <li><strong>Tecnologías:</strong> Spring, Java, SQL</li>
+                            <li><strong>Tipo:</strong> Aplicación web</li>
+                        </ul>
+                        <a href="https://github.com/Santi-Dela-Cruz/BAD_App"
+                            target="_blank" rel="noopener noreferrer"
+                            class="repositorioLink">Ver repositorio</a>
+                    </div>
+                </article>
 
-                                    <td>
-                                        <strong>CarShowroom</strong><br>
-                                        <img src="images/CarShowroom.png"
-                                            width="200"><br>
-                                        <p>Visualización de vehículos.</p>
-                                        <p><strong>Tecnologías:</strong> OpenGL, C++</p>
-                                        <a
-                                            href="https://github.com/mxavc/2025B_GR2SW_GR2"
-                                            target="_blank">Repositorio</a>
-                                    </td>
-
-                                </tr>
-                            </table>
-
-                        </section>
-
-                    </main>
-                </td>
-            </tr>
-        </table>
-
-        <hr>
+                <article class="proyectoCard">
+                    <img src="images/CarShowroom.png" alt="CarShowroom" />
+                    <div class="proyectoContenido">
+                        <h4>CarShowroom</h4>
+                        <p>Proyecto gráfico para visualización de vehículos en
+                            3D.</p>
+                        <ul class="datosProyecto">
+                            <li><strong>Tecnologías:</strong> OpenGL, C++</li>
+                            <li><strong>Tipo:</strong> Proyecto gráfico</li>
+                        </ul>
+                        <a href="https://github.com/mxavc/2025B_GR2SW_GR2"
+                            target="_blank" rel="noopener noreferrer"
+                            class="repositorioLink">Ver repositorio</a>
+                    </div>
+                </article>
+            </div>
+        </section>
 
         <footer>
             <p>&copy; 2026 - Santiago De La Cruz</p>
         </footer>
-
     </body>
+
 </html>

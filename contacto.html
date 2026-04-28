@@ -1,49 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Mi Perfil Profesional - Contacto</title>
+    <link rel="stylesheet" href="style/style.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
-    <header><h1>Mi Perfil Profesional</h1></header>
-    <hr>
-    <table border="1">
-        <tr>
-            <td>
-                <aside>
-                    <h3>Navegación</h3>
-                    <ul>
-                        <li><a href="index.html">¿Quién soy?</a></li>
-                        <li><a href="experiencia.html">Experiencia</a></li>
-                        <li><a href="portafolio.html">Portafolio</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                    </ul>
-                </aside>
-            </td>
-            <td weight="90%">
-                <section id="contacto">
-                    <h2>Contactame</h2>
-                    <p>Si deseas contactarme haz clic en los siguinetes enlaces: </p>
-                    <ul>
-                        <li><a href="mailto:kevin.delacruz@epn.edu.ec">kevin.delacruz@epn.edu.ec</a></li>
-                        <li><a href="tel:+593991234567">+593 99 123 4567</a></li>
-                    </ul>
-                    
-                    <p>O enviame un mensaje usando el siguiente formulario:</p>
-                    <form action="#">
-                        <label for="nombre">Nombre:</label><br>
-                        <input type="text" id="nombre" name="nombre" required placeholder="Escribe tu nombre"><br><br>
-                        <label for="email">Correo:</label><br>
-                        <input type="email" id="email" name="email" required placeholder="example@email.com"><br><br>
-                        <label for="mensaje">Mensaje:</label><br>
-                        <textarea id="mensaje" name="mensaje" required></textarea><br><br>
-                        <button type="submit">Enviar</button>
-                    </form>
-                </section>
-            </td>
-        </tr>
-    </table>
-    <hr>
+    <header>
+        <h1>Perfil Profesional</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">¿Quién soy?</a></li>
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li><a href="portafolio.html">Portafolio</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+        <aside class="infoPersonal">
+            <h3>Información Personal</h3>
+            <img class="fotoPerfil" src="images/perfil.jpeg"
+                alt="Imagen de perfil de Santiago De La Cruz" />
+            <p>Kevin Santiago De La Cruz Cañar</p>
+            <p>
+                Ingeniería en Desarrollo de Software<br />
+                (En curso - 6to Semestre)
+            </p>
+            <br />
+            <br />
+            <a href="https://github.com/Santi-Dela-Cruz" target="_blank"
+                class="enlaces">
+                <i class="bx bxl-github"></i> GitHub
+            </a>
+
+            <a href="https://www.linkedin.com/in/santiagodealacruz/"
+                target="_blank" class="enlaces">
+                <i class="bx bxl-linkedin-square"></i> LinkedIn
+            </a>
+            <p></p>
+        </aside>
+
+
+
+        <section class="principal">
+            <h2 class="tituloH2">Ponte en Contacto</h2>
+            <p class="textNormal">Estoy disponible para colaboraciones, proyectos académicos o consultas profesionales. Puedes contactarme a través de los siguientes medios:</p>
+            <ul>
+                <li><i class="fa-solid fa-envelope" style="color: #0078d4;"></i> Correo electrónico: <a class="enlaceContactos" href="mailto:kevin.delacruz@epn.edu.ec">kevin.delacruz@epn.edu.ec</a></li>
+                <li><i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> WhatsApp: <a class="enlaceContactos" href="tel:+593991234567">+593 99 123 4567</a></li>
+            </ul>
+
+            <p class="textNormal">También puedes enviarme un mensaje directo completando el siguiente formulario:</p>
+            <form action="#">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Escribe tu nombre">
+
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="example@email.com">
+
+                <label for="mensaje">Motivo de contacto:</label>
+                <textarea id="mensaje" name="mensaje" required></textarea>
+
+                <button type="submit">Enviar Mensaje</button>
+            </form>
+
+        </section>
+
     <footer><p>&copy; 2026 - Santiago De La Cruz</p></footer>
 </body>
 </html>
