@@ -1,8 +1,209 @@
-const menuButton = document.querySelector('.menu-toggle');const nav = document.querySelector('.main-nav');if(menuButton && nav){menuButton.addEventListener('click',()=>{const expanded=menuButton.getAttribute('aria-expanded')==='true';menuButton.setAttribute('aria-expanded',String(!expanded));nav.classList.toggle('open',!expanded);});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){nav.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.focus();}});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menuButton.setAttribute('aria-expanded','false');}));}const filters=[...document.querySelectorAll('[data-filter]')];if(filters.length){const cards=[...document.querySelectorAll('[data-type]')];const count=document.querySelector('#project-count');filters.forEach(button=>button.addEventListener('click',()=>{const chosen=button.dataset.filter;filters.forEach(item=>{const selected=item===button;item.classList.toggle('active',selected);item.setAttribute('aria-pressed',String(selected));});let visible=0;cards.forEach(card=>{const show=chosen==='Todos'||card.dataset.type===chosen;card.hidden=!show;if(show)visible++;});if(count)count.textContent=`${visible} ${visible===1?'proyecto':'proyectos'}`;}));}const form=document.querySelector('#contact-form');if(form){form.addEventListener('submit',event=>{event.preventDefault();let valid=true;for(const field of form.querySelectorAll('input,textarea')){const error=document.getElementById(`${field.id}-error`);let message='';if(field.validity.valueMissing)message='Este campo es obligatorio.';else if(field.validity.typeMismatch)message='Introduce un correo electrónico válido.';else if(field.validity.tooShort||field.value.trim().length<(field.minLength||0))message=`Escribe al menos ${field.minLength} caracteres.`;if(!field.value.trim())message='Este campo es obligatorio.';field.setAttribute('aria-invalid',String(Boolean(message)));if(error)error.textContent=message;if(message&&!form.querySelector('[data-first-error]'))field.dataset.firstError='true';if(message)valid=false;}const status=document.querySelector('#form-status');if(!valid){status.textContent='Revisa los campos señalados antes de continuar.';form.querySelector('[data-first-error]')?.focus();form.querySelectorAll('[data-first-error]').forEach(el=>delete el.dataset.firstError);return;}const data=new FormData(form);const name=String(data.get('nombre')).trim();const email=String(data.get('email')).trim();const message=String(data.get('mensaje')).trim();const subject=encodeURIComponent(`Contacto desde portafolio - ${name}`);const body=encodeURIComponent(`Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`);status.textContent='Se abrirá tu aplicación de correo con un borrador preparado. Revísalo y pulsa Enviar allí.';window.location.href=`mailto:kevin.delacruz@epn.edu.ec?subject=${subject}&body=${body}`;});form.querySelectorAll('input,textarea').forEach(field=>field.addEventListener('input',()=>{field.removeAttribute('aria-invalid');const error=document.getElementById(`${field.id}-error`);if(error)error.textContent='';}));}
-// Tema persistente: refleja el estado real en el botón y en la página.
-const themeToggle=document.getElementById('theme-toggle');
-function applyTheme(theme){const dark=theme==='dark';document.documentElement.dataset.theme=theme;if(themeToggle){themeToggle.setAttribute('aria-pressed',String(dark));themeToggle.setAttribute('aria-label',dark?'Activar modo claro':'Activar modo oscuro');themeToggle.title=dark?'Cambiar a modo claro':'Cambiar a modo oscuro';const label=document.getElementById('theme-label');if(label)label.textContent=dark?'Modo claro':'Modo oscuro';}const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=dark?'#0c1725':'#102a43';}
-applyTheme(document.documentElement.dataset.theme||'light');
-if(themeToggle)themeToggle.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(next);try{localStorage.setItem('portfolio-theme',next);}catch(e){}});
-// Apariciones progresivas, solo si el sistema permite movimiento.
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){const items=document.querySelectorAll('.page-intro,.hero-copy,.profile-card,.section-heading,.info-card,.timeline-item,.project-card,.contact-details,.form-card,.callout');items.forEach((item,i)=>{item.classList.add('reveal-ready');item.style.transitionDelay=`${Math.min(i%4,3)*65}ms`});const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}},{threshold:0.08,rootMargin:'0px 0px -25px 0px'});items.forEach(item=>observer.observe(item));}
+'use strict';
+
+const themeToggle = document.getElementById('theme-toggle');
+const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+let explicitTheme = false;
+try { explicitTheme = ['light', 'dark'].includes(localStorage.getItem('portfolio-theme')); } catch {}
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.documentElement.dataset.theme = theme;
+  themeToggle?.setAttribute('aria-pressed', String(dark));
+  themeToggle?.setAttribute('aria-label', dark ? 'Activar modo claro' : 'Activar modo oscuro');
+  if (themeToggle) themeToggle.title = dark ? 'Activar modo claro' : 'Activar modo oscuro';
+  const label = document.getElementById('theme-label');
+  if (label) label.textContent = dark ? 'Modo claro' : 'Modo oscuro';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = dark ? '#101522' : '#f5f6fa';
+}
+applyTheme(document.documentElement.dataset.theme || 'light');
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  explicitTheme = true;
+  applyTheme(next);
+  try { localStorage.setItem('portfolio-theme', next); } catch {}
+});
+systemTheme.addEventListener('change', event => {
+  if (!explicitTheme) applyTheme(event.matches ? 'dark' : 'light');
+});
+window.addEventListener('storage', event => {
+  if (event.key !== 'portfolio-theme') return;
+  explicitTheme = ['light', 'dark'].includes(event.newValue);
+  applyTheme(explicitTheme ? event.newValue : (systemTheme.matches ? 'dark' : 'light'));
+});
+
+// Loading and error states keep the layout stable without hiding project details.
+document.querySelectorAll('.project-image img, .portrait').forEach(img => {
+  const holder = img.parentElement;
+  const loading = document.createElement('span');
+  loading.className = 'image-loading';
+  loading.textContent = 'Cargando imagen…';
+  holder.append(loading);
+  function finish(failed) {
+    loading.remove();
+    if (!failed) return;
+    img.hidden = true;
+    if (holder.querySelector('.image-fallback')) return;
+    const fallback = document.createElement('span');
+    fallback.className = 'image-fallback';
+    fallback.textContent = img.classList.contains('portrait')
+      ? 'Foto de Santiago no disponible.'
+      : 'Vista previa no disponible. Puedes consultar el código del proyecto.';
+    holder.append(fallback);
+  }
+  img.addEventListener('load', () => finish(false), { once: true });
+  img.addEventListener('error', () => finish(true), { once: true });
+  if (img.complete) finish(!img.naturalWidth);
+});
+
+const filters = [...document.querySelectorAll('[data-filter]')];
+const search = document.getElementById('project-search');
+const cards = [...document.querySelectorAll('[data-type]')];
+const count = document.getElementById('project-count');
+const empty = document.getElementById('projects-empty');
+let selectedType = 'Todos';
+const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+function updateProjects() {
+  const query = normalize(search?.value.trim() || '');
+  let visible = 0;
+  cards.forEach(card => {
+    const show = (selectedType === 'Todos' || card.dataset.type === selectedType)
+      && normalize(card.textContent).includes(query);
+    card.hidden = !show;
+    if (show) visible++;
+  });
+  filters.forEach(button => {
+    const active = button.dataset.filter === selectedType;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  if (count) count.textContent = visible + (visible === 1 ? ' proyecto' : ' proyectos');
+  if (empty) empty.hidden = visible > 0;
+}
+filters.forEach(button => button.addEventListener('click', () => {
+  selectedType = button.dataset.filter;
+  updateProjects();
+}));
+search?.addEventListener('input', updateProjects);
+document.getElementById('reset-projects')?.addEventListener('click', () => {
+  selectedType = 'Todos';
+  if (search) search.value = '';
+  updateProjects();
+  search?.focus();
+});
+
+const form = document.getElementById('contact-form');
+if (form) {
+  const fields = [...form.querySelectorAll('input[name], textarea[name]')];
+  const status = document.getElementById('form-status');
+  const result = document.getElementById('draft-result');
+  const openDraft = document.getElementById('open-draft');
+  const copyButton = document.getElementById('copy-message');
+  const draftKey = 'portfolio-contact-draft';
+  let preparedText = '';
+  let copyTimer;
+  function announce(message, state = '') {
+    status.textContent = message;
+    status.dataset.state = state;
+  }
+  function fieldError(field) {
+    if (!field.value.trim()) return 'Completa este campo.';
+    if (field.validity.typeMismatch) return 'Escribe un correo válido, como nombre@ejemplo.com.';
+    if (field.minLength > 0 && field.value.trim().length < field.minLength)
+      return 'Escribe al menos ' + field.minLength + ' caracteres.';
+    if (field.maxLength > 0 && field.value.length > field.maxLength)
+      return 'Usa un máximo de ' + field.maxLength + ' caracteres.';
+    return '';
+  }
+  function validateField(field) {
+    const message = fieldError(field);
+    field.setAttribute('aria-invalid', String(Boolean(message)));
+    document.getElementById(field.id + '-error').textContent = message;
+    return !message;
+  }
+  function saveDraft() {
+    try {
+      const data = Object.fromEntries(fields.map(field => [field.name, field.value]));
+      sessionStorage.setItem(draftKey, JSON.stringify(data));
+    } catch {}
+  }
+  try {
+    const draft = JSON.parse(sessionStorage.getItem(draftKey) || 'null');
+    if (draft && typeof draft === 'object') {
+      fields.forEach(field => { if (typeof draft[field.name] === 'string') field.value = draft[field.name]; });
+      if (fields.some(field => field.value)) announce('Borrador recuperado en esta pestaña. Puedes seguir editándolo.');
+    }
+  } catch {}
+  fields.forEach(field => {
+    field.addEventListener('blur', () => { if (field.value || field.hasAttribute('aria-invalid')) validateField(field); });
+    field.addEventListener('input', () => {
+      if (field.hasAttribute('aria-invalid')) validateField(field);
+      if (!result.hidden) {
+        result.hidden = true;
+        document.getElementById('manual-copy').hidden = true;
+        announce('El mensaje cambió. Prepara el correo de nuevo para actualizarlo.');
+      } else if (status.dataset.state) announce('');
+      saveDraft();
+    });
+  });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const validity = fields.map(validateField);
+    if (validity.includes(false)) {
+      result.hidden = true;
+      announce('Revisa los campos indicados antes de continuar.', 'error');
+      fields[validity.indexOf(false)].focus();
+      return;
+    }
+    const name = form.elements.nombre.value.trim();
+    const email = form.elements.email.value.trim();
+    const message = form.elements.mensaje.value.trim();
+    preparedText = 'Nombre: ' + name + '\nCorreo: ' + email + '\n\nMensaje:\n' + message;
+    openDraft.href = 'mailto:kevin.delacruz@epn.edu.ec?subject='
+      + encodeURIComponent('Contacto desde portafolio · ' + name) + '&body=' + encodeURIComponent(preparedText);
+    result.hidden = false;
+    saveDraft();
+    announce('Borrador listo. Ábrelo en tu aplicación de correo o copia el mensaje.', 'success');
+    openDraft.focus();
+  });
+  openDraft.addEventListener('click', () => {
+    announce('Se solicitó abrir tu aplicación de correo. Revisa el borrador y pulsa Enviar allí. Si no se abre, copia el mensaje.', 'success');
+  });
+  copyButton.addEventListener('click', async () => {
+    copyButton.disabled = true;
+    copyButton.setAttribute('aria-busy', 'true');
+    copyButton.textContent = 'Copiando…';
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(preparedText);
+      announce('Mensaje copiado. Pégalo en un correo para kevin.delacruz@epn.edu.ec.', 'success');
+      copyButton.textContent = 'Mensaje copiado';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => { copyButton.textContent = 'Copiar mensaje'; }, 2400);
+    } catch {
+      const manual = document.getElementById('manual-copy');
+      manual.hidden = false;
+      manual.querySelector('textarea').value = preparedText;
+      manual.querySelector('textarea').focus();
+      manual.querySelector('textarea').select();
+      announce('No se pudo copiar automáticamente. Copia el texto del campo seleccionado.', 'error');
+      copyButton.textContent = 'Copiar mensaje';
+    } finally {
+      copyButton.disabled = false;
+      copyButton.removeAttribute('aria-busy');
+    }
+  });
+}
+// Fall back to page scrolling if the profile and its contact row cannot fit.
+// The card never creates an independent scrolling region.
+const profileCard = document.querySelector('.profile-sidebar');
+if (profileCard) {
+  function updateProfilePosition() {
+    const header = document.querySelector('.site-header');
+    const availableHeight = window.innerHeight - (header?.offsetHeight || 0) - 48;
+    profileCard.classList.toggle('is-static',
+      window.innerWidth > 760 && profileCard.offsetHeight > availableHeight);
+  }
+  window.addEventListener('resize', updateProfilePosition);
+  if ('ResizeObserver' in window) new ResizeObserver(updateProfilePosition).observe(profileCard);
+  updateProfilePosition();
+}
